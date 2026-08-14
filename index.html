@@ -289,5 +289,88 @@ section{padding:60px 0}h2{font-size:34px}.cards,.twocol,.contactgrid,.foot{grid-
 </main>
 <footer><div class="container foot"><div><h3>American Mobile RV Repair & Pressure Washing</h3><p>On-site RV repair and exterior service throughout Polk County, Florida.</p><p class="fine">© 2026 American Mobile RV Repair and Pressure Washing.</p></div><div><h3>Call/Text</h3><p><a href="tel:8636628830">863-662-8830</a><br><a href="tel:8636628827">863-662-8827</a></p></div><div><h3>Service Area</h3><p>Serving Polk County, Florida</p></div></div></footer>
 <div class="mobilebar"><a class="call" href="tel:8636628830">Call Now</a><a class="text" href="sms:8636628830?body=Hi%2C%20I%27d%20like%20to%20request%20RV%20service.">Text Us</a></div>
+<div id="photoLightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:99999;align-items:center;justify-content:center;flex-direction:column;padding:20px;">
+
+  <button id="lightboxClose" aria-label="Close photo" style="position:absolute;top:20px;right:20px;background:#fff;border:0;border-radius:50%;width:50px;height:50px;font-size:30px;cursor:pointer;">×</button>
+
+  <button id="lightboxPrev" aria-label="Previous photo" style="position:absolute;left:15px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.9);border:0;border-radius:50%;width:50px;height:50px;font-size:30px;cursor:pointer;">‹</button>
+
+  <img id="lightboxImage" src="" alt="" style="max-width:92vw;max-height:78vh;object-fit:contain;border-radius:10px;">
+
+  <div id="lightboxCaption" style="color:#fff;font-size:18px;text-align:center;margin-top:14px;"></div>
+
+  <button id="lightboxNext" aria-label="Next photo" style="position:absolute;right:15px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.9);border:0;border-radius:50%;width:50px;height:50px;font-size:30px;cursor:pointer;">›</button>
+
+</div>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+  const photos = Array.from(document.querySelectorAll('main img'));
+
+  const box = document.getElementById('photoLightbox');
+
+  const big = document.getElementById('lightboxImage');
+
+  const caption = document.getElementById('lightboxCaption');
+
+  let current = 0;
+
+  function showPhoto(index) {
+
+    current = (index + photos.length) % photos.length;
+
+    big.src = photos[current].src;
+
+    big.alt = photos[current].alt || 'RV service photo';
+
+    caption.textContent = photos[current].alt || '';
+
+    box.style.display = 'flex';
+
+    document.body.style.overflow = 'hidden';
+
+  }
+
+  function closeGallery() {
+
+    box.style.display = 'none';
+
+    document.body.style.overflow = '';
+
+  }
+
+  photos.forEach(function (photo, index) {
+
+    photo.style.cursor = 'pointer';
+
+    photo.addEventListener('click', function (event) {
+
+      event.preventDefault();
+
+      event.stopPropagation();
+
+      showPhoto(index);
+
+    });
+
+  });
+
+  document.getElementById('lightboxClose').onclick = closeGallery;
+
+  document.getElementById('lightboxPrev').onclick = function () { showPhoto(current - 1); };
+
+  document.getElementById('lightboxNext').onclick = function () { showPhoto(current + 1); };
+
+  box.addEventListener('click', function (event) {
+
+    if (event.target === box) closeGallery();
+
+  });
+
+});
+
+</script>
 </body>
 </html>
